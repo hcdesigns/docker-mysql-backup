@@ -1,5 +1,5 @@
 FROM alpine:3
-RUN apk add --no-cache mysql-client bash
+RUN apk add --no-cache mysql-client bash util-linux
 
 WORKDIR /app
 
