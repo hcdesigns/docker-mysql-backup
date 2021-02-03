@@ -10,7 +10,7 @@ This container uses `mysql_dump` to backup all databases on a mysql or mariadb d
 | MYSQL_PWORD       | Mysql password | |
 | MYSQL_HOST        | Mysql host | localhost |
 | MYSQL_PORT        | Mysql port | 3306 |
-| IGNORE_DB         | Don't backup databases with these names with regex | `(^mysql|_schema$|_test|sys$)` |
+| IGNORE_DB         | Don't backup databases with these names with regex | <code>(^mysql\|_schema$\|_test\|sys$)</code> |
 | KEEP_BACKUPS_FOR  | Days to keep backups | 7 |
 
 ## Example
