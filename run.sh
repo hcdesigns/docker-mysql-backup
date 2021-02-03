@@ -10,8 +10,7 @@ PATH=$PATH:/usr/local/mysql/bin
 # YYYY-MM-DD
 TIMESTAMP=$(date +%F)
 
-function delete_old_backups()
-{
+function delete_old_backups() {
   echo "Deleting $BACKUP_DIR/*.sql.gz older than $KEEP_BACKUPS_FOR days"
   find $BACKUP_DIR -type f -name "*.sql.gz" -mtime +$KEEP_BACKUPS_FOR -exec rm {} \;
 }
@@ -29,21 +28,22 @@ function database_list() {
   echo $(mysql $(mysql_login) -e "$show_databases_sql"|awk -F " " '{if (NR!=1) print $1}')
 }
 
-function echo_status(){
+function echo_status() {
   printf '\r';
   printf ' %0.s' {0..100}
   printf '\r';
   printf "$1"'\r'
 }
 
-function backup_database(){
-    backup_file="$BACKUP_DIR/$TIMESTAMP.$database.sql.gz"
-    output+="$database => $backup_file\n"
-    echo_status "...backing up $count of $total databases: $database"
-    $(mysqldump $(mysql_login) $database | gzip -9 > $backup_file)
+function backup_database() {
+  mkdir -p $BACKUP_DIR
+  backup_file="$BACKUP_DIR/$TIMESTAMP.$database.sql.gz"
+  output+="$database => $backup_file\n"
+  echo_status "...backing up $count of $total databases: $database"
+  $(mysqldump $(mysql_login) $database | gzip -9 > $backup_file)
 }
 
-function backup_databases(){
+function backup_databases() {
   local databases=$(database_list)
   local total=$(echo $databases | wc -w | xargs)
   local output=""
@@ -55,7 +55,7 @@ function backup_databases(){
   echo -ne $output | column -t
 }
 
-function hr(){
+function hr() {
   printf '=%.0s' {1..100}
   printf "\n"
 }
